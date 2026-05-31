@@ -1,5 +1,25 @@
 # Changelog
 
+## v0.2.0 (2026-06-01)
+
+### New Features
+
+#### File Upload with OCR
+- **File upload** — Attach documents via 📎 button in chat input
+  - Size limit configurable in Settings (1MB / 5MB / 10MB / 50MB)
+  - Files saved to `.uploads/` directory in workspace
+  - Image files get automatic OCR hint for CodeWhale
+- **OCR engine** — Tesseract + pytesseract for text recognition
+  - Supports Chinese + English text recognition
+  - Lightweight, no model download needed
+  - Command line: `python scripts/ocr.py <image_path>`
+
+#### Settings
+- **File size limit selector** — Choose max upload size (1MB/5MB/10MB/50MB)
+- **Restart button** — Restart CodeWhale server for reconnection
+
+---
+
 ## v0.1.0 (2026-05-31)
 
 Initial release of CodeWhale Desktop.
