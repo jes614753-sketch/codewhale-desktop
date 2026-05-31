@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
+import { writeFileSync, mkdirSync, existsSync } from 'fs'
 import http from 'http'
 import { ChildProcess, spawn, execSync } from 'child_process'
 import * as pty from 'node-pty'
@@ -103,6 +104,27 @@ async function ensureCodeWhaleRunning(): Promise<boolean> {
   console.error('[CW] Timed out waiting for server')
   return false
 }
+
+// ── File Upload ─────────────────────────────────────
+ipcMain.handle('cw:uploadFile', (_event: any, args: { filename: string; data: string }) => {
+  try {
+    // Get workspace path from CodeWhale
+    const workspace = process.cwd() // fallback
+    const uploadDir = join(workspace, '.uploads')
+    if (!existsSync(uploadDir)) {
+      mkdirSync(uploadDir, { recursive: true })
+    }
+    // Sanitize filename
+    const safeName = args.filename.replace(/[<>:"/\\|?*]/g, '_')
+    const filePath = join(uploadDir, safeName)
+    // Write file from base64
+    const buffer = Buffer.from(args.data, 'base64')
+    writeFileSync(filePath, buffer)
+    return { success: true, path: filePath, name: safeName, size: buffer.length }
+  } catch (err: any) {
+    return { success: false, error: err.message }
+  }
+})
 
 // ── Restart CodeWhale ───────────────────────────────
 ipcMain.handle('cw:restart', async () => {

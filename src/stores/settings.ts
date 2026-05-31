@@ -4,9 +4,11 @@ interface SettingsState {
   theme: 'dark' | 'light'
   apiKey: string
   userAvatar: string // base64 data URL
+  maxFileSize: number // bytes
   setTheme: (theme: 'dark' | 'light') => void
   setApiKey: (key: string) => void
   setUserAvatar: (avatar: string) => void
+  setMaxFileSize: (size: number) => void
   toggleTheme: () => void
 }
 
@@ -41,6 +43,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
   theme: saved.theme || 'dark',
   apiKey: saved.apiKey || '',
   userAvatar: saved.userAvatar || '',
+  maxFileSize: saved.maxFileSize || 10 * 1024 * 1024, // default 10MB
 
   setTheme: (theme) => {
     set({ theme })
@@ -56,6 +59,11 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
   setUserAvatar: (userAvatar) => {
     set({ userAvatar })
     persist({ userAvatar })
+  },
+
+  setMaxFileSize: (maxFileSize) => {
+    set({ maxFileSize })
+    persist({ maxFileSize })
   },
 
   toggleTheme: () => {

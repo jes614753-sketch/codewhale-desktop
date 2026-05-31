@@ -33,6 +33,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Restart CodeWhale server
   restartCw: () => ipcRenderer.invoke('cw:restart'),
 
+  // File upload
+  uploadFile: (filename: string, data: string) =>
+    ipcRenderer.invoke('cw:uploadFile', { filename, data }),
+
   // CodeWhale status
   onCwStatus: (callback: (status: string) => void) => {
     const handler = (_event: any, status: string) => callback(status)

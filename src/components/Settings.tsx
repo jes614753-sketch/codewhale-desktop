@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useSettingsStore } from '../stores/settings'
-import { X, Sun, Moon, Key, Save, User, Upload, RefreshCw } from 'lucide-react'
+import { X, Sun, Moon, Key, Save, User, Upload, RefreshCw, HardDrive } from 'lucide-react'
 import ImageCropper from './ImageCropper'
 
 interface Props {
@@ -14,6 +14,8 @@ export default function Settings({ onClose }: Props) {
   const setApiKey = useSettingsStore((s) => s.setApiKey)
   const userAvatar = useSettingsStore((s) => s.userAvatar)
   const setUserAvatar = useSettingsStore((s) => s.setUserAvatar)
+  const maxFileSize = useSettingsStore((s) => s.maxFileSize)
+  const setMaxFileSize = useSettingsStore((s) => s.setMaxFileSize)
   const [keyInput, setKeyInput] = useState(apiKey)
   const [saved, setSaved] = useState(false)
   const [restarting, setRestarting] = useState(false)
@@ -162,6 +164,32 @@ export default function Settings({ onClose }: Props) {
             </div>
             <p className="text-xs text-gray-600 mt-1.5">
               重启 CodeWhale 后生效。留空则使用默认配置。
+            </p>
+          </div>
+
+          {/* File Upload Limit */}
+          <div>
+            <label className="text-xs text-gray-400 uppercase tracking-wider mb-2 block">
+              <HardDrive size={12} className="inline mr-1" />
+              文件上传大小限制
+            </label>
+            <div className="flex gap-2">
+              {[1, 5, 10, 50].map((mb) => (
+                <button
+                  key={mb}
+                  onClick={() => setMaxFileSize(mb * 1024 * 1024)}
+                  className={`flex-1 px-2 py-1.5 rounded-md text-sm border transition-colors ${
+                    maxFileSize === mb * 1024 * 1024
+                      ? 'bg-accent text-bg-primary border-accent'
+                      : 'bg-bg-primary text-gray-300 border-gray-700 hover:border-gray-600'
+                  }`}
+                >
+                  {mb}MB
+                </button>
+              ))}
+            </div>
+            <p className="text-xs text-gray-600 mt-1.5">
+              超过限制的文件将被拒绝上传。
             </p>
           </div>
 

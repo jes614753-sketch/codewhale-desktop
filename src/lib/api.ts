@@ -28,6 +28,13 @@ declare global {
       ) => () => void
       fetchEvents: (threadId: string) => Promise<string>
       restartCw: () => Promise<boolean>
+      uploadFile: (filename: string, data: string) => Promise<{
+        success: boolean
+        path?: string
+        name?: string
+        size?: number
+        error?: string
+      }>
       onCwStatus: (callback: (status: string) => void) => () => void
       onCwLog: (callback: (log: string) => void) => () => void
       termStart: () => void
