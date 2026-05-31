@@ -1,0 +1,141 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #1a1a2e;
+  --bg-secondary: #16213e;
+  --bg-tertiary: #0f3460;
+  --text-primary: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --border: #1f2937;
+  --accent: #4fc3f7;
+  --bubble-user: #0f3460;
+  --bubble-ai: #2a2a3e;
+  --code-bg: #0d1117;
+}
+
+:root.light {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f3f4f6;
+  --bg-tertiary: #e5e7eb;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --border: #d1d5db;
+  --accent: #0284c7;
+  --bubble-user: #e0f2fe;
+  --bubble-ai: #f3f4f6;
+  --code-bg: #f6f8fa;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow: hidden;
+  user-select: none;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Text selection inside chat */
+.selectable {
+  user-select: text;
+}
+
+/* Code blocks */
+pre code {
+  font-family: 'JetBrains Mono', 'Consolas', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Markdown prose */
+.prose {
+  font-size: 14px;
+  line-height: 1.7;
+}
+.prose p {
+  margin-bottom: 0.5em;
+}
+.prose pre {
+  background: #0d1117;
+  border-radius: 6px;
+  padding: 12px;
+  overflow-x: auto;
+  margin: 8px 0;
+}
+.prose code {
+  background: #2a2a3e;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+.prose pre code {
+  background: transparent;
+  padding: 0;
+}
+.prose ul, .prose ol {
+  padding-left: 1.5em;
+  margin-bottom: 0.5em;
+}
+.prose blockquote {
+  border-left: 3px solid #4fc3f7;
+  padding-left: 12px;
+  color: #999;
+}
+
+/* Terminal */
+.xterm {
+  padding: 8px;
+}
+
+/* Theme-aware utility classes */
+.text-theme { color: var(--text-primary); }
+.text-theme-secondary { color: var(--text-secondary); }
+.text-theme-muted { color: var(--text-muted); }
+.bg-theme { background-color: var(--bg-primary); }
+.bg-theme-secondary { background-color: var(--bg-secondary); }
+.bg-theme-tertiary { background-color: var(--bg-tertiary); }
+.border-theme { border-color: var(--border); }
+.accent-theme { color: var(--accent); }
+.border-theme { border-color: var(--border); }
+
+/* Light mode overrides for Tailwind gray utilities */
+.light .text-gray-300 { color: var(--text-primary); }
+.light .text-gray-400 { color: var(--text-secondary); }
+.light .text-gray-500 { color: var(--text-secondary); }
+.light .text-gray-600 { color: var(--text-muted); }
+.light .text-gray-700 { color: var(--text-muted); }
+.light .text-gray-800 { color: var(--text-muted); }
+.light .border-gray-700 { border-color: var(--border); }
+.light .border-gray-800 { border-color: var(--border); }
+.light .bg-gray-800 { background-color: var(--bg-tertiary); }
+.light .bg-gray-700 { background-color: var(--bg-tertiary); }
+.light .hover\:bg-gray-800:hover { background-color: var(--bg-tertiary); }
+.light .hover\:bg-gray-700:hover { background-color: var(--bg-tertiary); }
+.light .hover\:text-white:hover { color: var(--text-primary); }
+.light .prose { color: var(--text-primary); }
+.light .prose pre { background: var(--code-bg); }
+.light .prose code { background: var(--bg-tertiary); }
+.light .prose blockquote { color: var(--text-secondary); }

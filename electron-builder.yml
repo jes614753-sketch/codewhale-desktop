@@ -1,0 +1,16 @@
+appId: com.codewhale.desktop
+productName: CodeWhale Desktop
+directories:
+  output: release
+files:
+  - dist
+  - dist-electron
+win:
+  target: nsis
+  icon: resources/icon.ico
+mac:
+  target: dmg
+  icon: resources/icon.icns
+linux:
+  target: AppImage
+  icon: resources/icon.png
