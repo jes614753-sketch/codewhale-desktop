@@ -27,6 +27,7 @@ declare global {
         callback: (data: { threadId: string }) => void
       ) => () => void
       fetchEvents: (threadId: string) => Promise<string>
+      restartCw: () => Promise<boolean>
       onCwStatus: (callback: (status: string) => void) => () => void
       onCwLog: (callback: (log: string) => void) => () => void
       termStart: () => void

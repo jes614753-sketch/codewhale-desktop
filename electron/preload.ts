@@ -30,6 +30,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   fetchEvents: (threadId: string) =>
     ipcRenderer.invoke('cw:fetchEvents', { threadId }),
 
+  // Restart CodeWhale server
+  restartCw: () => ipcRenderer.invoke('cw:restart'),
+
   // CodeWhale status
   onCwStatus: (callback: (status: string) => void) => {
     const handler = (_event: any, status: string) => callback(status)

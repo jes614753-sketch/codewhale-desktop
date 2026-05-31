@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { useSettingsStore } from '../stores/settings'
-import { X, Sun, Moon, Key, Save, User, Upload } from 'lucide-react'
+import { X, Sun, Moon, Key, Save, User, Upload, RefreshCw } from 'lucide-react'
 import ImageCropper from './ImageCropper'
 
 interface Props {
@@ -16,6 +16,7 @@ export default function Settings({ onClose }: Props) {
   const setUserAvatar = useSettingsStore((s) => s.setUserAvatar)
   const [keyInput, setKeyInput] = useState(apiKey)
   const [saved, setSaved] = useState(false)
+  const [restarting, setRestarting] = useState(false)
   const [cropSrc, setCropSrc] = useState<string | null>(null)
   const fileRef = useRef<HTMLInputElement>(null)
 
@@ -23,6 +24,16 @@ export default function Settings({ onClose }: Props) {
     setApiKey(keyInput.trim())
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
+  }
+
+  const handleRestart = async () => {
+    setRestarting(true)
+    try {
+      await window.electronAPI.restartCw()
+    } catch (err) {
+      console.error('Restart failed:', err)
+    }
+    setRestarting(false)
   }
 
   const handleAvatarUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -151,6 +162,24 @@ export default function Settings({ onClose }: Props) {
             </div>
             <p className="text-xs text-gray-600 mt-1.5">
               重启 CodeWhale 后生效。留空则使用默认配置。
+            </p>
+          </div>
+
+          {/* Restart */}
+          <div>
+            <label className="text-xs text-gray-400 uppercase tracking-wider mb-2 block">
+              Connection
+            </label>
+            <button
+              onClick={handleRestart}
+              disabled={restarting}
+              className="w-full flex items-center justify-center gap-2 px-3 py-2.5 bg-bg-primary rounded-md border border-gray-700 hover:border-accent text-sm text-gray-300 hover:text-white transition-colors disabled:opacity-50"
+            >
+              <RefreshCw size={14} className={restarting ? 'animate-spin' : ''} />
+              {restarting ? '重启中...' : '重启 CodeWhale 服务'}
+            </button>
+            <p className="text-xs text-gray-600 mt-1.5">
+              断开连接时点击此按钮重新启动 CodeWhale 服务。
             </p>
           </div>
         </div>

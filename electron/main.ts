@@ -104,6 +104,22 @@ async function ensureCodeWhaleRunning(): Promise<boolean> {
   return false
 }
 
+// ── Restart CodeWhale ───────────────────────────────
+ipcMain.handle('cw:restart', async () => {
+  // Kill existing process
+  if (cwProcess) {
+    console.log('[CW] Stopping existing server...')
+    cwProcess.kill()
+    cwProcess = null
+  }
+  // Wait a bit for port to release
+  await new Promise((r) => setTimeout(r, 1000))
+  // Restart
+  mainWindow?.webContents.send('cw:status', 'starting')
+  const ok = await ensureCodeWhaleRunning()
+  return ok
+})
+
 // ── Window ──────────────────────────────────────────
 function createWindow() {
   mainWindow = new BrowserWindow({
